@@ -10,7 +10,7 @@ class IdleTimeout : Event()
 private val idleScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 private val idleGen = AtomicInteger(0)
 
-fun FlowControlRunner.resetIdleTimer(timeoutMs: Long = 120_000) {
+fun FlowControlRunner.resetIdleTimer(timeoutMs: Long = 300_000) {
     val myGen = idleGen.incrementAndGet()
     println("reset IdleTimer")
 

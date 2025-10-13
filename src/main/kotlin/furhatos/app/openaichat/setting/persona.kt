@@ -84,8 +84,31 @@ val emotionalPersona = Persona(
     voice = listOf(PollyNeuralVoice("Olivia")),
 )
 
+val ethicPersona = Persona(
+    name = "Emma",
+    desc = ETHIC_AGENT_PROMPT,
+    intro = "Ethics Agent that ensures our sale be honest, fairness, and transparent.",
+    face = listOf("Isabel"),
+    voice = listOf(PollyNeuralVoice("Emma")),
+)
+val profitPersona = Persona(
+    name = "Maurice",
+    desc = PROFIT_AGENT_PROMPT,
+    intro = "A profit agent to suggest the most competitive pricing to maximise profit.",
+    face = listOf("Maurice"),
+    voice = listOf(PollyNeuralVoice("Gregory"))
+)
+
+val carePersona = Persona(
+    name = "Jane",
+    desc = CARE_AGENT_PROMPT,
+    intro = "A Customer care agent to make sure we have positive and friendly relationships with our potential buyers",
+    face = listOf("Jane"),
+    voice = listOf(PollyNeuralVoice("Olivia")),
+)
+
 val personas = listOf(
-    creativePersona,
-    logicalPersona,
-    emotionalPersona
+    ethicPersona,
+    profitPersona,
+    carePersona
 )

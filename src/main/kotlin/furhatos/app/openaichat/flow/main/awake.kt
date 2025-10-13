@@ -2,6 +2,7 @@ package furhatos.app.openaichat.flow.main
 
 import furhatos.app.openaichat.flow.Greeting
 import furhatos.app.openaichat.flow.Idle
+import furhatos.app.openaichat.flow.OrchestratorGreeting
 import furhatos.app.openaichat.flow.Parent
 import furhatos.app.openaichat.utils.IdleTimeout
 import furhatos.app.openaichat.utils.resetIdleTimer
@@ -13,7 +14,7 @@ val Awake = state(Parent) {
 
     onEntry {
         furhat.say(
-            "Welcome! Say \"Lets start\" if you want to start the conversation."
+            "Welcome! Say \"Hey Furhat\" if you want to start the conversation."
         )
         resetIdleTimer()
 
@@ -22,11 +23,12 @@ val Awake = state(Parent) {
     }
 
 
-    onResponse("start", "go") {
+    onResponse("hey", "hey furhat", "start", "go") {
 
-        goto(Greeting)
+        goto(OrchestratorGreeting)
 
     }
+
     onEvent<IdleTimeout> {
         print("sleep\n")
         goto(Idle)

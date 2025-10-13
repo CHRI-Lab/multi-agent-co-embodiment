@@ -12,14 +12,16 @@ import furhatos.app.openaichat.setting.orchestratorPersona
 import furhatos.app.openaichat.utils.splitByGestureTags
 
 import furhatos.app.openaichat.flow.chatbot.getOpenAiResponseAsync
+import furhatos.app.openaichat.flow.main.Awake
 import furhatos.app.openaichat.utils.IdleTimeout
 import furhatos.app.openaichat.utils.resetIdleTimer
 import furhatos.app.openaichat.setting.ORCHESTRATOR_PROMPT_SELECT
 
 
 val OrchestratorDemonstration : State = state(Parent) {
-
+    var conversation_count = 0
     onEntry {
+        conversation_count = 0
         resetIdleTimer()
         reentry()
     }
@@ -33,10 +35,11 @@ val OrchestratorDemonstration : State = state(Parent) {
 
     onResponse("exit", "quit") {
         resetIdleTimer()
-        goto(Greeting)
+        goto(Awake)
     }
 
     onResponse {
+        conversation_count++
         resetIdleTimer()
         // Build your parallel tasks (example: 3 variants/agents)
         val results: MutableList<String> = mutableListOf()
@@ -115,7 +118,11 @@ val OrchestratorDemonstration : State = state(Parent) {
         val segments = splitByGestureTags(summary)
         presentSpeech(segments)
 
-        reentry()
+        if (conversation_count>= 2) {
+            goto(OrchestratorExit)
+        } else{
+            reentry()
+        }
 
     }
 

@@ -13,11 +13,7 @@ class OpenaichatSkill : Skill() {
 }
 
 fun main(args: Array<String>) {
-    if (serviceKey.isEmpty()) {
-        println("Missing API key for OpenAI language model. ")
-    } else{
-        println(serviceKey)
-    }
+
 
     LogisticMultiIntentClassifier.setAsDefault()
     Skill.main(args)
