@@ -46,7 +46,6 @@ val OrchestratorGreeting = state(Parent) {
             "Before we start, I'll give a introduction to my team of agents.",
             "System")
         furhat.say("Before we start, I'll give a introduction to my team of agents.")
-        goto(OrchestratorDemonstration)
 
         delay((200))
 
