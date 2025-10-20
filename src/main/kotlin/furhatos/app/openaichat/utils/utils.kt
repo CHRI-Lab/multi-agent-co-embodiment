@@ -100,12 +100,15 @@ fun getFurhatMessage(n : Int  = 10) : List<ChatMessage> {
 }
 
 
-fun FlowControlRunner.presentSpeech(segments : List<Segment>) {
-    for (segment in segments){
+fun FlowControlRunner.presentSpeech(segments: List<Segment>): String {
+    val allSpeech = StringBuilder()
+
+    for (segment in segments) {
         val g = toGesture(segment.gesture.name)
         furhat.gesture(g)
         furhat.say(segment.sentence)
-
+        allSpeech.append(segment.sentence).append(" ")
     }
 
+    return allSpeech.toString().trim()
 }

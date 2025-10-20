@@ -16,6 +16,8 @@ import furhatos.app.openaichat.flow.main.Awake
 import furhatos.app.openaichat.utils.IdleTimeout
 import furhatos.app.openaichat.utils.resetIdleTimer
 import furhatos.app.openaichat.setting.ORCHESTRATOR_PROMPT_SELECT
+import furhatos.app.openaichat.setting.carePersona
+import sayAndLog
 
 
 val OrchestratorDemonstration : State = state(Parent) {
@@ -35,7 +37,7 @@ val OrchestratorDemonstration : State = state(Parent) {
 
     onResponse("exit", "quit") {
         resetIdleTimer()
-        goto(Awake)
+        goto(OrchestratorExit)
     }
 
     onResponse {
@@ -45,6 +47,10 @@ val OrchestratorDemonstration : State = state(Parent) {
         val results: MutableList<String> = mutableListOf()
         getFurhatMessage().lastOrNull()?.let { last ->
             orchestratorPersona.context.add(last)
+            sayAndLog("user",
+                last.content,
+                "User")
+
         }
 
         runBlocking {
@@ -94,12 +100,19 @@ val OrchestratorDemonstration : State = state(Parent) {
         for (persona in personas) {
             activate(orchestratorPersona)
             furhat.attend(Location(1.0, 0.0, 2.0))
+            sayAndLog("assistant",
+                persona.context.lastOrNull()?.content ?: "",
+                "System")
             furhat.say(persona.context.lastOrNull()?.content ?: "")
+
             furhat.attend(Location(-1.0, 0.0, 2.0))
             activate(persona)
             val result = getOpenAiResponse(persona.desc, persona.context)
             persona.context.add(ChatMessage("assistant",result))
             results.add(persona.name + result)
+            sayAndLog("assistant",
+                persona.context.lastOrNull()?.content ?: "",
+                persona.name)
             furhat.say(result)
         }
 
@@ -116,7 +129,10 @@ val OrchestratorDemonstration : State = state(Parent) {
         print(orchestratorPersona.context)
 
         val segments = splitByGestureTags(summary)
-        presentSpeech(segments)
+        val output = presentSpeech(segments)
+        sayAndLog("assistant",
+            output,
+            "System")
 
         if (conversation_count>= 2) {
             goto(OrchestratorExit)
