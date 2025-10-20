@@ -36,7 +36,7 @@ val InitFlow: State = state() {
         //furhat.say("Hello! I am Furhat, a social robot excited of the focus group")
         delay((200))
         when {
-            users.hasAny() -> goto(Awake)
+            users.hasAny() -> goto(Idle)
             !users.hasAny() -> goto(Idle)
         }
     }

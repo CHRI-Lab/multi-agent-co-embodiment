@@ -36,6 +36,13 @@ val OrchestratorDemonstration : State = state(Parent) {
     }
 
     onResponse("exit", "quit") {
+        getFurhatMessage().lastOrNull()?.let { last ->
+            sayAndLog("user",
+                last.content,
+                "User")
+
+        }
+
         resetIdleTimer()
         goto(OrchestratorExit)
     }

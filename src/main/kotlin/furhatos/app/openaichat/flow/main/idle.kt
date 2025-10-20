@@ -11,13 +11,22 @@ val Idle : State = state {
         stopIdleTimer()
         activate(hostPersona)
         furhat.attendNobody()
+        furhat.listen(timeout = 1800000)
     }
 
-    onUserEnter {
-        furhat.attend(it)
-        goto(Awake)
+
+    onResponse("hey", "hey furhat", "start", "go") {
+
+        goto(OrchestratorGreeting)
+
+    }
+    onResponse {
+        reentry()
     }
 
+    onNoResponse {
+        reentry()
+    }
 }
 
 

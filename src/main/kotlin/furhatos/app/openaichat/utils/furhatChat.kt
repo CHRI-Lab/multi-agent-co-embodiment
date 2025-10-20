@@ -66,6 +66,7 @@ suspend fun clearChat(): String =
         }
 
     }
+
 fun postMessageAsync(role: String, content: String, name: String) {
     ioScope.launch {
         postMessage(role, content, name)
@@ -79,4 +80,6 @@ fun clearChatAsync() {
 }
 fun FlowControlRunner.sayAndLog(role: String, text: String, sender: String) {
     postMessageAsync(role, text, sender)
+    Logs.append(text, sender)
+
 }

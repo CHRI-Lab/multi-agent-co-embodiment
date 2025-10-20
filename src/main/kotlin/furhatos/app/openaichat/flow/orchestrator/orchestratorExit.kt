@@ -13,6 +13,7 @@ val OrchestratorExit : State = state(Parent) {
             "System")
         furhat.say("Great, I think you are ready to sell an item on the marketplace. Please click \"Submit\" on the iPad next to you.")
 
+        println(Logs.saveLog())
         delay(300)
         goto(Idle)
     }
