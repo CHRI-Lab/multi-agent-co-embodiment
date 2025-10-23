@@ -10,7 +10,7 @@ class IdleTimeout : Event()
 private val idleScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 private val idleGen = AtomicInteger(0)
 
-fun FlowControlRunner.resetIdleTimer(timeoutMs: Long = 300_000) {
+fun FlowControlRunner.resetIdleTimer(timeoutMs: Long = 10_000) {
     val myGen = idleGen.incrementAndGet()
     println("reset IdleTimer")
 
@@ -18,7 +18,7 @@ fun FlowControlRunner.resetIdleTimer(timeoutMs: Long = 300_000) {
         kotlinx.coroutines.delay(timeoutMs)
         if (idleGen.get() == myGen) {
             println("go sleep")
-            call { send(IdleTimeout()) }
+            call { raise(IdleTimeout()) }
         }
     }
 }

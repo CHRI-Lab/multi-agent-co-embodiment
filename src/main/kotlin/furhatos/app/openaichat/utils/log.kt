@@ -1,11 +1,5 @@
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONArray
-import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.io.File
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -30,6 +24,7 @@ object Logs {
     }
 
     fun saveLog(
+        terminate_status : String,
         txtDir: File = File("./log"),
     ): String {
         // snapshot
@@ -37,22 +32,35 @@ object Logs {
 
 
         if (!txtDir.exists()) txtDir.mkdirs()
-        val fname = "chatlog_${System.currentTimeMillis()}.txt"
+
+        val now = Date()
+        val timeFormatter = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val formattedTime = timeFormatter.format(now)
+
+        val fname = "chatlog_${formattedTime}_${terminate_status}.txt"
         val outFile = File(txtDir, fname)
         val logText = buildString {
             snapshot.forEach { e ->
                 appendLine("[${e.ts}] @${e.sender}: ${e.text}")
             }
         }
-        val now = Date() // BSON Date for good TTL/index support
         if (MongoDBURL != ""){
             val doc = Document()
                 .append("time_stamp", now)
                 .append("lines", snapshot.size)
                 .append("text", logText)
+                .append("terminate_status", terminate_status)
             MongoLogStore.col.insertOne(doc)
         }
 
+        val txtText = buildString {
+            appendLine("==== Chat Session Log ====")
+            appendLine("Timestamp : ${Date()}")
+            appendLine("Terminate Status : $terminate_status")
+            appendLine("Lines Logged : ${snapshot.size}")
+            appendLine("---------------------------")
+            appendLine(logText)
+        }
         outFile.writeText(logText)
 
         buf.clear()

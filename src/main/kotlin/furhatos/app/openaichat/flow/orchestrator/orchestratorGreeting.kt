@@ -23,14 +23,13 @@ import sayAndLog
 val OrchestratorGreeting = state(Parent) {
     onEntry {
         clearChatAsync()
-        resetIdleTimer()
         furhat.dialogHistory.clear()
         for (persona in personas){
             persona.context.clear()
         }
         orchestratorPersona.context.clear()
         Logs.clear()
-        
+
         furhat.attend(users.userClosestToPosition(Location(0.0, 0.0, 0.5)))
         furhat.say("Hi there! I'm the Orchestrator Agent, " +
                 "here to assist you figure in selling an item on a popular online marketplace ")

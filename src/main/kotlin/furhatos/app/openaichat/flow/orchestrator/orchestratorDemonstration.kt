@@ -17,6 +17,7 @@ import furhatos.app.openaichat.utils.IdleTimeout
 import furhatos.app.openaichat.utils.resetIdleTimer
 import furhatos.app.openaichat.setting.ORCHESTRATOR_PROMPT_SELECT
 import furhatos.app.openaichat.setting.carePersona
+import furhatos.app.openaichat.utils.stopIdleTimer
 import sayAndLog
 
 
@@ -36,6 +37,7 @@ val OrchestratorDemonstration : State = state(Parent) {
     }
 
     onResponse("exit", "quit") {
+        resetIdleTimer()
         getFurhatMessage().lastOrNull()?.let { last ->
             sayAndLog("user",
                 last.content,
@@ -43,13 +45,14 @@ val OrchestratorDemonstration : State = state(Parent) {
 
         }
 
-        resetIdleTimer()
+        Logs.saveLog("keyword exit")
+
         goto(OrchestratorExit)
     }
 
     onResponse {
+        stopIdleTimer()
         conversation_count++
-        resetIdleTimer()
         // Build your parallel tasks (example: 3 variants/agents)
         val results: MutableList<String> = mutableListOf()
         getFurhatMessage().lastOrNull()?.let { last ->
@@ -142,8 +145,11 @@ val OrchestratorDemonstration : State = state(Parent) {
             "System")
 
         if (conversation_count>= 2) {
+            Logs.saveLog("normal termination")
+
             goto(OrchestratorExit)
         } else{
+            resetIdleTimer()
             reentry()
         }
 
@@ -156,6 +162,7 @@ val OrchestratorDemonstration : State = state(Parent) {
 
     onEvent<IdleTimeout> {
         print("sleep\n")
+        Logs.saveLog("idle timeout")
         goto(Idle)
     }
 }

@@ -1,0 +1,11 @@
+[2025-10-23T14:37:22.061Z] @System: Hi there! I'm the Orchestrator Agent, here to assist you figure in selling an item on a popular online marketplace 
+[2025-10-23T14:37:22.063Z] @System: Your can exit our conversation at any time by saying exit.
+[2025-10-23T14:37:25.118Z] @System: Before we start, I'll give a introduction to my team of agents.
+[2025-10-23T14:37:28.788Z] @System: Here is Emma, our Ethics Agent that ensures our sale be honest, fairness, and transparent.
+[2025-10-23T14:37:34.643Z] @Emma: Hi! I'm emma
+[2025-10-23T14:37:36.465Z] @System: Say Hello to Maurice, our profit agent. Here to suggest the most competitive pricing to maximise profit.
+[2025-10-23T14:37:43.360Z] @Maurice: Hi! I'm Maurice
+[2025-10-23T14:37:45.481Z] @System: Meet Jane, our customer care agent. She’s here to make sure we have positive and friendly relationships with our potential buyers
+[2025-10-23T14:37:53.061Z] @Jane: Hi! I'm Jane
+[2025-10-23T14:37:55.361Z] @System: Whats the product you want to sale?
+[2025-10-23T14:38:06.311Z] @User: exit
