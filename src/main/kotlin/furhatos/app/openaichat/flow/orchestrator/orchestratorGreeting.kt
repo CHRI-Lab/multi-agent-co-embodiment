@@ -29,7 +29,8 @@ val OrchestratorGreeting = state(Parent) {
             persona.context.clear()
         }
         orchestratorPersona.context.clear()
-
+        Logs.clear()
+        
         furhat.attend(users.userClosestToPosition(Location(0.0, 0.0, 0.5)))
         furhat.say("Hi there! I'm the Orchestrator Agent, " +
                 "here to assist you figure in selling an item on a popular online marketplace ")

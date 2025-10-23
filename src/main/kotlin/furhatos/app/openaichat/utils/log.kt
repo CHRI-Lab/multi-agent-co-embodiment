@@ -60,5 +60,8 @@ object Logs {
         return outFile.absolutePath
     }
 
+    fun clear(){
+        buf.clear()
+    }
 }
 
